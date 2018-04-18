@@ -2,9 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script type="text/javascript" src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyABkB5mAg15Vcg-lgs2Uw5H-aSGRICtIxE&callback=inititation'>
+    </script>
+    <script type="text/javascript">
+        function inititation() {
+            uluru = {lat: 29.586380, lng: 106.533470};
+            var map = new google.maps.Map(document.getElementById('map-canvas'), {
+                zoom: 15,
+                center: uluru
+            });
+            var marker = new google.maps.Marker({
+                position: uluru,
+                map: map
+            });
+        }
+    </script>
     <title>CrimeMap</title>
 </head>
-<body>
+<body onload="inititation()">
     <h1>Crime Map</h1>
     <form action="/add" method="POST">
         <input type="text" name="userinput">
@@ -14,7 +29,6 @@
     {% for userinput in data %}
     <p>{{userinput}}</p>
     {% endfor %}
-</body>
-</html>
+    <div id="map-canvas" style="width: 80%; height: 400px; border: 1px solid;"></div>
 </body>
 </html>
