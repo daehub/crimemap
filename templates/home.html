@@ -17,16 +17,37 @@
                 });
 
             function placeMarker(location) {
-                var marker = new google.maps.Marker({
-                    position: location,
-                    map: map
-                });
+                if (marker) {
+                    marker.setPosition(location);
+                }
+                else {
+                    var marker = new google.maps.Marker({
+                        position: location,
+                        map: map
+                    });
+                }
+                document.getElementById('latitude').value = location.lat();
+                document.getElementById('longitude').value = location.lng();
             }
+
 
             var marker = new google.maps.Marker({
                 position: uluru,
                 map: map
             });
+            placeCrimes({{ crimes | safe }});
+
+            function placeCrimes(crimes) {
+                for (i=0;i<crimes.length;i++){
+                    crime = new google.maps.Marker({
+                            position: new google.maps.LatLng(crimes[i].latitude,crimes[i].longitude),
+                            map:map,
+                            title:crimes[i].date + "\n"+ crimes[i].category +"\n" +crimes[i].description
+                        }
+
+                    );
+                }
+            }
         }
     </script>
     <link type="text/css" rel="stylesheet" href="{{url_for('static',filename='css/style.css') }}" />
